@@ -6,6 +6,12 @@
 version: '2'
 
 services:
+  http:
+    container_name: srgzloc-httpd
+    image: httpd:2.2.31
+    networks:
+      default:
+        ipv4_address: 172.0.10.100
   db:
     container_name: srgzloc-db
     image: mariadb:10.1.16
