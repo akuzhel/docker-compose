@@ -1,17 +1,17 @@
 # Add the following records to your /etc/hosts
-# 172.0.10.2    db.magento-local.com
-# 172.0.10.3    php.magento-local.com
-# 172.0.10.4    magento-local.com
+# 172.0.10.2    db.srgz-local.com
+# 172.0.10.3    php.srgz-local.com php56.srgz-local.com
+# 172.0.10.100  Your-Host-Name1, You-Host-Name2, etc...
 
 version: '2'
 
 services:
   db:
-    container_name: mageloc-db
+    container_name: srgzloc-db
     image: mariadb:10.1.16
     networks:
       default:
-        ipv4_address: 172.00.10.2
+        ipv4_address: 172.0.10.2
     environment:
         MYSQL_USER: root
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
@@ -21,6 +21,6 @@ networks:
     driver: bridge
     ipam:
       config:
-      - subnet: 172.00.10.0/24
-        gateway: 172.00.10.1
+      - subnet: 172.0.10.0/24
+        gateway: 172.0.10.1
 
