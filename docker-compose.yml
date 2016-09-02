@@ -15,6 +15,7 @@ services:
     volumes:
         - ./httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf
         - ./httpd/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
+        - ./magento-local.com/:/var/www/html/magento-local.com
   db:
     container_name: srgzloc-db
     image: mariadb:10.1.16
