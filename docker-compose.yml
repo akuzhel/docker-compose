@@ -12,6 +12,9 @@ services:
     networks:
       default:
         ipv4_address: 172.0.10.100
+    volumes:
+        - ./httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf
+        - ./httpd/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
   db:
     container_name: srgzloc-db
     image: mariadb:10.1.16
