@@ -8,25 +8,17 @@ version: '2'
 services:
   http:
     container_name: srgzloc-httpd
-    image: httpd:2.4.23
-    networks:
-      default:
-        ipv4_address: 172.0.10.100
+    image: sergeyzskw/apache2
     volumes:
-        - ./httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf
-        - ./httpd/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
-        - ./magento-local.com/:/var/www/html/magento-local.com
+        - a2conf:/etc/apache2
   db:
     container_name: srgzloc-db
-    image: mariadb:10.1.16
-    networks:
-      default:
-        ipv4_address: 172.0.10.2
+    image: mariadb
     environment:
         MYSQL_USER: root
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
-        - dbdata:/var/lib/mysql
+        - data:/var/lib/mysql
 
 networks:
   default:
@@ -37,6 +29,9 @@ networks:
         gateway: 172.0.10.1
 
 volumes:
-  dbdata:
+  data:
     driver: local
+  a2conf:
+    driver: local
+
 
