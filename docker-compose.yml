@@ -11,6 +11,17 @@ services:
     image: sergeyzskw/apache2
     volumes:
         - a2conf:/etc/apache2
+    depends_on:
+        - php56fpm
+        
+  php56fpm:
+    container_name: srgzloc-php5fpm
+    image: sergeyzskw/php56fpm
+    volumes:
+        - php5conf:/etc/php5
+    depends_on:
+        - db
+        
   db:
     container_name: srgzloc-db
     image: mariadb
@@ -20,18 +31,8 @@ services:
     volumes:
         - data:/var/lib/mysql
 
-networks:
-  default:
-    driver: bridge
-    ipam:
-      config:
-      - subnet: 172.0.10.0/24
-        gateway: 172.0.10.1
-
 volumes:
   data:
-    driver: local
   a2conf:
-    driver: local
-
+  php5conf:
 
