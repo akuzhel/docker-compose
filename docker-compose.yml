@@ -1,6 +1,6 @@
 # Add the following records to your /etc/hosts
-# 172.0.10.2    db.srgz-local.com
-# 172.0.10.3    php.srgz-local.com php56.srgz-local.com
+# 172.0.10.2    db.<basehost>.com
+# 172.0.10.3    php.<basehost>.com php55.<basehost>.com
 # 172.0.10.100  Your-Host-Name1, You-Host-Name2, etc...
 
 version: '2'
@@ -10,15 +10,15 @@ services:
     container_name: srgzloc-httpd
     image: sergeyzskw/apache2
     volumes:
-        - a2conf:/etc/apache2
+        - http_a2-vol:/etc/apache2
     depends_on:
-        - php56fpm
+        - php55fpm
         
-  php56fpm:
+  php55fpm:
     container_name: srgzloc-php5fpm
-    image: sergeyzskw/php56fpm
+    image: sergeyzskw/php:5.5-fpm
     volumes:
-        - php5conf:/etc/php5
+        - exec_php55fpm-vol:/etc/php5
     depends_on:
         - db
         
@@ -29,10 +29,10 @@ services:
         MYSQL_USER: root
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
-        - data:/var/lib/mysql
+        - data_mariadb-vol:/var/lib/mysql
 
 volumes:
-  data:
-  a2conf:
-  php5conf:
+  data_mariadb-vol:
+  http_a2-vol:
+  exec_php55fpm-vol:
 
