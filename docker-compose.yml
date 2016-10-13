@@ -14,9 +14,10 @@ services:
     depends_on:
         - php55fpm
     links:
+        - php55fpm:php.srglocal.com
         - php55fpm:dev.php.srglocal.com
         - php55fpm:php55.srglocal.com
-        - php55fpm:php.srglocal.com
+        - php55fpm:dev.php55.srglocal.com
 
   php55fpm:
     container_name: ${USER}local-php55fpm
@@ -30,8 +31,8 @@ services:
     depends_on:
         - db
     links:
-        - db:dev.db.srglocal.com
         - db:db.srglocal.com
+        - db:dev.db.srglocal.com
 
   db:
     container_name: ${USER}local-db
