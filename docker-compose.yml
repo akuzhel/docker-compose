@@ -7,7 +7,7 @@ version: '2'
 
 services:
   http:
-    container_name: srgzloc-httpd
+    container_name: ${USER}local-httpd
     image: sergeyzskw/apache2
     volumes:
         - http_a2-vol:/etc/apache2
@@ -15,7 +15,7 @@ services:
         - php55fpm
         
   php55fpm:
-    container_name: srgzloc-php5fpm
+    container_name: ${USER}local-php5fpm
     image: sergeyzskw/php:5.5-fpm
     volumes:
         - exec_php55fpm-vol:/etc/php5
@@ -23,7 +23,7 @@ services:
         - db
         
   db:
-    container_name: srgzloc-db
+    container_name: ${USER}local-db
     image: mariadb
     environment:
         MYSQL_USER: root
