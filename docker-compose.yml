@@ -13,15 +13,26 @@ services:
         - http_a2-vol:/etc/apache2
     depends_on:
         - php55fpm
-        
+    links:
+        - php55fpm:dev.php.srglocal.com
+        - php55fpm:php55.srglocal.com
+        - php55fpm:php.srglocal.com
+
   php55fpm:
-    container_name: ${USER}local-php5fpm
+    container_name: ${USER}local-php55fpm
     image: sergeyzskw/php:5.5-fpm
     volumes:
         - exec_php55fpm-vol:/etc/php5
+        - exec_composer-vol:/home/composer/.composer
+        - ~/.ssh/${SSH_KEY}:/home/composer/.ssh/id_rsa
+        - ~/.ssh/known_hosts:/home/composer/.ssh/known_hosts
+        - ${HTTPD_DOCUMENT_ROOT}:/var/www/html
     depends_on:
         - db
-        
+    links:
+        - db:dev.db.srglocal.com
+        - db:db.srglocal.com
+
   db:
     container_name: ${USER}local-db
     image: mariadb
@@ -35,4 +46,5 @@ volumes:
   data_mariadb-vol:
   http_a2-vol:
   exec_php55fpm-vol:
+  exec_composer-vol:
 
