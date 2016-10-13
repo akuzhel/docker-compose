@@ -11,6 +11,7 @@ services:
     image: sergeyzskw/apache2
     volumes:
         - http_a2-vol:/etc/apache2
+        - ${HTTPD_DOCUMENT_ROOT}:/var/www/html
     depends_on:
         - php55fpm
     links:
