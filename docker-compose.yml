@@ -11,14 +11,14 @@ services:
     image: sergeyzskw/apache2
     volumes:
         - http_a2-vol:/etc/apache2
-        - ${HTTPD_DOCUMENT_ROOT}:/var/www/html
+        - ${HTTPD_DOCUMENT_ROOT}:/var/www
     depends_on:
         - php55fpm
     links:
-        - php55fpm:php.srglocal.com
-        - php55fpm:dev.php.srglocal.com
-        - php55fpm:php55.srglocal.com
-        - php55fpm:dev.php55.srglocal.com
+        - php55fpm:php.${HOST}
+        - php55fpm:dev.php.${HOST}
+        - php55fpm:php55.${HOST}
+        - php55fpm:dev.php55.${HOST}
 
   php55fpm:
     container_name: ${USER}local-php55fpm
@@ -28,12 +28,12 @@ services:
         - exec_composer-vol:/home/composer/.composer
         - ~/.ssh/${SSH_KEY}:/home/composer/.ssh/id_rsa
         - ~/.ssh/known_hosts:/home/composer/.ssh/known_hosts
-        - ${HTTPD_DOCUMENT_ROOT}:/var/www/html
+        - ${HTTPD_DOCUMENT_ROOT}:/var/www
     depends_on:
         - db
     links:
-        - db:db.srglocal.com
-        - db:dev.db.srglocal.com
+        - db:db.${HOST}
+        - db:dev.db.${HOST}
 
   db:
     container_name: ${USER}local-db
