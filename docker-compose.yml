@@ -9,7 +9,7 @@ version: '2'
 
 services:
   http:
-    container_name: ${USER}local-httpd
+    container_name: local-httpd
     image: sergeyzskw/apache2
     volumes:
         - /var/log:/var/log
@@ -24,7 +24,7 @@ services:
         - php55fpm:dev.php55.${HOST}
 
   php55fpm:
-    container_name: ${USER}local-php55fpm
+    container_name: local-php55fpm
     image: sergeyzskw/php:5.5-fpm
     volumes:
         - /var/log:/var/log
@@ -40,7 +40,7 @@ services:
         - db:dev.db.${HOST}
 
   db:
-    container_name: ${USER}local-db
+    container_name: local-db
     image: mariadb
     environment:
         MYSQL_USER: root
