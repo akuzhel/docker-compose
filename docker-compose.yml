@@ -1,7 +1,9 @@
 # Add the following records to your /etc/hosts
-# 172.0.10.2    db.<basehost>.com
-# 172.0.10.3    php.<basehost>.com php55.<basehost>.com
-# 172.0.10.100  Your-Host-Name1, You-Host-Name2, etc...
+# Note*: IP can be different
+# 
+# 172.18.0.2	dev.db.local.com db.local.com
+# 172.18.0.3	dev.php.local.com php.local.com dev.php55.local.com php55.local.com
+# 172.18.0.4	local.com
 
 version: '2'
 
@@ -10,6 +12,7 @@ services:
     container_name: ${USER}local-httpd
     image: sergeyzskw/apache2
     volumes:
+        - /var/log:/var/log
         - http_a2-vol:/etc/apache2
         - ${HTTPD_DOCUMENT_ROOT}:/var/www
     depends_on:
@@ -24,6 +27,7 @@ services:
     container_name: ${USER}local-php55fpm
     image: sergeyzskw/php:5.5-fpm
     volumes:
+        - /var/log:/var/log
         - exec_php55fpm-vol:/etc/php5
         - exec_composer-vol:/home/composer/.composer
         - ~/.ssh/${SSH_KEY}:/home/composer/.ssh/id_rsa
@@ -42,6 +46,7 @@ services:
         MYSQL_USER: root
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
+        - /var/log:/var/log
         - data_mariadb-vol:/var/lib/mysql
 
 volumes:
