@@ -28,7 +28,7 @@ services:
     image: sergeyzskw/php:5.5-fpm
     volumes:
         - ${LOG_ROOT}:/var/log
-        - exec_php55fpm-vol:/etc/php5
+        - php_55-vol:/etc/php5
         - exec_composer-vol:/home/composer/.composer
         - ~/.ssh/${SSH_KEY}:/home/composer/.ssh/id_rsa
         - ~/.ssh/known_hosts:/home/composer/.ssh/known_hosts
@@ -52,6 +52,6 @@ services:
 volumes:
   data_mariadb-vol:
   http_a2-vol:
-  exec_php55fpm-vol:
+  php_55-vol:
   exec_composer-vol:
 
