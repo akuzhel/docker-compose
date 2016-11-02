@@ -16,15 +16,15 @@ services:
         - http_a2-vol:/etc/apache2
         - ${HTTPD_DOCUMENT_ROOT}:/var/www
     depends_on:
-        - php55fpm
+        - php55
     links:
-        - php55fpm:php.${HOST}
-        - php55fpm:dev.php.${HOST}
-        - php55fpm:php55.${HOST}
-        - php55fpm:dev.php55.${HOST}
+        - php55:php.${HOST}
+        - php55:dev.php.${HOST}
+        - php55:php55.${HOST}
+        - php55:dev.php55.${HOST}
 
-  php55fpm:
-    container_name: local-php55fpm
+  php55:
+    container_name: local-php55
     image: sergeyzskw/php:5.5-fpm
     volumes:
         - ${LOG_ROOT}:/var/log
