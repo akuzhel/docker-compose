@@ -1,6 +1,6 @@
 # Add the following records to your /etc/hosts
 # Note*: IP can be different
-# 
+#
 # 172.18.0.2	dev.db.local.com db.local.com
 # 172.18.0.3	dev.php.local.com php.local.com dev.php55.local.com php55.local.com
 # 172.18.0.4	local.com
@@ -9,7 +9,7 @@ version: '2'
 
 services:
   http:
-    container_name: local-httpd
+    container_name: dev-a24
     image: sergeyzskw/apache2
     volumes:
         - ${LOG_ROOT}:/var/log
@@ -24,12 +24,12 @@ services:
         - php55:dev.php55.${HOST}
 
   php55:
-    container_name: local-php55
+    container_name: dev-php55
     image: sergeyzskw/php:5.5-fpm
     volumes:
         - ${LOG_ROOT}:/var/log
         - php_55-vol:/etc/php5
-        - exec_composer-vol:/home/composer/.composer
+        - composer-vol:/home/composer/.composer
         - ~/.ssh/${SSH_KEY}:/home/composer/.ssh/id_rsa
         - ~/.ssh/known_hosts:/home/composer/.ssh/known_hosts
         - ${HTTPD_DOCUMENT_ROOT}:/var/www
@@ -40,7 +40,7 @@ services:
         - db:dev.db.${HOST}
 
   db:
-    container_name: local-db
+    container_name: dev-db
     image: mariadb
     environment:
         MYSQL_USER: root
@@ -53,5 +53,5 @@ volumes:
   data_mariadb-vol:
   http_a2-vol:
   php_55-vol:
-  exec_composer-vol:
+  composer-vol:
 
