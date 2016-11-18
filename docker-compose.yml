@@ -1,10 +1,3 @@
-# Add the following records to your /etc/hosts
-# Note*: IP can be different
-#
-# 172.18.0.2	dev.db.local.com db.local.com
-# 172.18.0.3	dev.php.local.com php.local.com dev.php55.local.com php55.local.com
-# 172.18.0.4	local.com
-
 version: '2'
 
 services:
@@ -17,11 +10,10 @@ services:
         - ${HTTPD_DOCUMENT_ROOT}:/var/www
     depends_on:
         - php55
+        - php70
     links:
-        - php55:php.${HOST}
-        - php55:dev.php.${HOST}
         - php55:php55.${HOST}
-        - php55:dev.php55.${HOST}
+        - php70:php70.${HOST}
 
   php55:
     container_name: dev-php55
@@ -29,7 +21,7 @@ services:
     volumes:
         - ${LOG_ROOT}:/var/log
         - php_55-vol:/etc/php5
-        - composer-vol:/home/composer/.composer
+        - composer_55-vol:/home/composer/.composer
         - ~/.ssh/${SSH_KEY}:/home/composer/.ssh/id_rsa
         - ~/.ssh/known_hosts:/home/composer/.ssh/known_hosts
         - ${HTTPD_DOCUMENT_ROOT}:/var/www
@@ -37,7 +29,22 @@ services:
         - db
     links:
         - db:db.${HOST}
-        - db:dev.db.${HOST}
+
+  php70:
+    container_name: dev-php70
+    image: sergeyzskw/php:7.0-fpm
+    volumes:
+        - ${LOG_ROOT}:/var/log
+        - php_70-vol:/etc/php
+        - composer_70-vol:/home/composer/.composer
+        - ~/.ssh/${SSH_KEY}:/home/composer/.ssh/id_rsa
+        - ~/.ssh/known_hosts:/home/composer/.ssh/known_hosts
+        - ${HTTPD_DOCUMENT_ROOT}:/var/www
+    depends_on:
+        - db
+        - php55
+    links:
+        - db:db.${HOST}
 
   db:
     container_name: dev-db
@@ -53,5 +60,7 @@ volumes:
   data_mariadb-vol:
   http_a2-vol:
   php_55-vol:
-  composer-vol:
+  php_70-vol:
+  composer_55-vol:
+  composer_70-vol:
 
