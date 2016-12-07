@@ -9,7 +9,6 @@ services:
         - http_a2-vol:/etc/apache2
         - ${HTTPD_DOCUMENT_ROOT}:/var/www
     depends_on:
-        - php55
         - php70
     links:
         - php55:php55.${HOST}
@@ -26,9 +25,10 @@ services:
         - ~/.ssh/known_hosts:/home/composer/.ssh/known_hosts
         - ${HTTPD_DOCUMENT_ROOT}:/var/www
     depends_on:
-        - db
+        - es24
     links:
         - db:db.${HOST}
+        - es24:es24.${HOST}
 
   php70:
     container_name: dev-php70
@@ -41,10 +41,18 @@ services:
         - ~/.ssh/known_hosts:/home/composer/.ssh/known_hosts
         - ${HTTPD_DOCUMENT_ROOT}:/var/www
     depends_on:
-        - db
         - php55
     links:
         - db:db.${HOST}
+        - es24:es24.${HOST}
+
+  es24:
+    container_name: dev-es24
+    image: sergeyzskw/elasticsearch:2.4-magento-smile
+    volumes:
+        - es24-vol:/usr/share/elasticsearch/data
+    depends_on:
+        - db
 
   db:
     container_name: dev-db
@@ -63,4 +71,5 @@ volumes:
   php_70-vol:
   composer_55-vol:
   composer_70-vol:
+  es24-vol:
 
