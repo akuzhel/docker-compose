@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
 NETWORK_DATA="network.json"
-HOST='pon.com'
+HOST='dev.gazelle.nl'
 HOST_SUFFIX='-docker-auto'
+BRIDGE_NETWORK_ID=`docker network ls|grep 'pon-tier'|awk ' {print $1}'`
 
-docker network inspect dockercompose_default > $NETWORK_DATA
+docker network inspect ${BRIDGE_NETWORK_ID} > $NETWORK_DATA
 #echo php write-hosts.php -i ${NETWORK_DATA} -h ${HOST} -s ${HOST_SUFFIX} ####
 #exit  ##########
 CONFIG_FILE=`php write-hosts.php -i $NETWORK_DATA -h $HOST -s $HOST_SUFFIX |xargs`
@@ -19,7 +20,7 @@ if [[ -n ${CONFIG_FILE} ]]; then
         echo Removed previous config '"'${TARGET}'"'
     fi
 
-    sudo ln -s  ${SOURCE} ${TARGET} && \
+    sudo cp  ${SOURCE} ${TARGET} && \
     sudo service dnsmasq restart
 fi
 

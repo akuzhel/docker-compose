@@ -13,14 +13,17 @@ $hostSuffix = $args['s'] ?: '-docker-auto';
 
 $dnsmasqConfigFile = $host . $hostSuffix;
 
-$json = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . $networkInfoJson);
+$json = trim(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . $networkInfoJson));
+if (empty($json)) {
+    exit ('');
+}
 $networkData = json_decode($json, 1)[0];
 
 if (!empty($networkData) && isset($networkData['Containers']) && is_array($networkData['Containers'])) {
     $hosts = [];
     foreach ($networkData['Containers'] as $id => $info) {
         if (isset($info['Name'], $info['IPv4Address'])) {
-            $hosts[str_replace('/16', '', $info['IPv4Address'])] = str_replace('dev-', '', $info['Name']) . '.' . $host;
+            $hosts[str_replace('/16', '', $info['IPv4Address'])] = str_replace('pon-', '', $info['Name']) . '.' . $host;
         }
     }
 
