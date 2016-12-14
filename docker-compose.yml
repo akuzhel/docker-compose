@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   http:
-    container_name: pon-apache
+    container_name: ${CONTAINER_PREFIX}apache
     image: knowgod/apache2:2.4.10
     volumes:
         - ${LOG_ROOT}:/var/log
@@ -16,7 +16,7 @@ services:
         - ${NETWORK_NAME}
 
   php70:
-    container_name: pon-php70
+    container_name: ${CONTAINER_PREFIX}php70
     image: knowgod/php-fpm:7.0
     volumes:
         - ${LOG_ROOT}:/var/log
@@ -32,7 +32,7 @@ services:
         - ${NETWORK_NAME}
 
   es24:
-    container_name: pon-elastic
+    container_name: ${CONTAINER_PREFIX}elastic
     image: knowgod/elasticsearch:2.4.2
     volumes:
         - es24-vol:/usr/share/elasticsearch/data
@@ -42,7 +42,7 @@ services:
         - ${NETWORK_NAME}
 
   db:
-    container_name: pon-mysql5.7
+    container_name: ${CONTAINER_PREFIX}mysql5.7
     image: knowgod/ubuntu-mysql:5.7
     environment:
         ENV DB_USER: magento

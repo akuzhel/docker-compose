@@ -10,6 +10,7 @@ $args = _parseArgs();
 $networkInfoJson = $args['i'] ?: 'network.json';
 $host = $args['h'] ?: 'pon.com';
 $hostSuffix = $args['s'] ?: '-docker-auto';
+$containerPrefix = $args['p'] ?: 'dev-';
 
 $dnsmasqConfigFile = $host . $hostSuffix;
 
@@ -23,7 +24,7 @@ if (!empty($networkData) && isset($networkData['Containers']) && is_array($netwo
     $hosts = [];
     foreach ($networkData['Containers'] as $id => $info) {
         if (isset($info['Name'], $info['IPv4Address'])) {
-            $hosts[str_replace('/16', '', $info['IPv4Address'])] = str_replace('pon-', '', $info['Name']) . '.' . $host;
+            $hosts[str_replace('/16', '', $info['IPv4Address'])] = str_replace($containerPrefix, '', $info['Name']) . '.' . $host;
         }
     }
 

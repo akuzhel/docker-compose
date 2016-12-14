@@ -9,7 +9,7 @@ docker network inspect ${BRIDGE_NETWORK_NAME} > ${NETWORK_INFO_DUMP}
 echo 'Dumped network data for "'${BRIDGE_NETWORK_NAME}'"'
 
 # Prepare dnsmasq configuration file in PHP script
-CONFIG_FILE=`php write-hosts.php -i ${NETWORK_INFO_DUMP} -h $HOST -s ${CONF_FILE_SUFFIX} |xargs`
+CONFIG_FILE=`php write-hosts.php -i ${NETWORK_INFO_DUMP} -h $HOST -p ${CONTAINER_PREFIX} -s ${CONF_FILE_SUFFIX} |xargs`
 
 # Put dnsmasq configuration file inplace and restart service
 if [[ -n ${CONFIG_FILE} ]]; then
