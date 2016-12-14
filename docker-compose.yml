@@ -13,7 +13,7 @@ services:
     links:
         - php70:php70.${HOST}
     networks:
-        - pon-tier
+        - ${NETWORK_NAME}
 
   php70:
     container_name: pon-php70
@@ -29,7 +29,7 @@ services:
         - db:db.${HOST}
         - es24:es24.${HOST}
     networks:
-        - pon-tier
+        - ${NETWORK_NAME}
 
   es24:
     container_name: pon-elastic
@@ -39,7 +39,7 @@ services:
     depends_on:
         - db
     networks:
-        - pon-tier
+        - ${NETWORK_NAME}
 
   db:
     container_name: pon-mysql5.7
@@ -49,12 +49,12 @@ services:
         ENV DB_PASS: tester1
     volumes:
         - ${LOG_ROOT}:/var/log
-        - data_mariadb-vol:/var/lib/mysql
+        - data_mysql-vol:/var/lib/mysql
     networks:
-        - pon-tier
+        - ${NETWORK_NAME}
 
 volumes:
-  data_mariadb-vol:
+  data_mysql-vol:
   http_a2-vol:
   php_55-vol:
   php_70-vol:
@@ -62,5 +62,5 @@ volumes:
   es24-vol:
 
 networks:
-  pon-tier:
+  ${NETWORK_NAME}:
     driver: bridge
