@@ -2,8 +2,8 @@ version: '2.1'
 
 services:
   http:
-    container_name: ${CONTAINER_PREFIX}apache
-    image: knowgod/apache2:2.4.10
+    container_name: ${CONTAINER_PREFIX}a24
+    image: sergeyzskw/apache2
     volumes:
         - ${LOG_ROOT}:/var/log
         - http_a2-vol:/etc/apache2
@@ -17,7 +17,7 @@ services:
 
   php70:
     container_name: ${CONTAINER_PREFIX}php70
-    image: knowgod/php-fpm:7.0
+    image: sergeyzskw/php:7.0-fpm
     volumes:
         - ${LOG_ROOT}:/var/log
         - php_70-vol:/etc/php
@@ -27,40 +27,28 @@ services:
         - ${HTTPD_DOCUMENT_ROOT}:/var/www
     links:
         - db:db.${HOST}
-        - es24:es24.${HOST}
-    networks:
-        - ${NETWORK_NAME}
-
-  es24:
-    container_name: ${CONTAINER_PREFIX}elastic
-    image: knowgod/elasticsearch:2.4.2
-    volumes:
-        - es24-vol:/usr/share/elasticsearch/data
-    depends_on:
-        - db
     networks:
         - ${NETWORK_NAME}
 
   db:
-    container_name: ${CONTAINER_PREFIX}mysql5.7
-    image: knowgod/ubuntu-mysql:5.7
+    container_name: ${CONTAINER_PREFIX}db
+    image: mariadb
     environment:
         ENV DB_USER: magento
         ENV DB_PASS: tester1
     volumes:
         - ${LOG_ROOT}:/var/log
-        - data_mysql-vol:/var/lib/mysql
+        - data_mariadb-vol:/var/lib/mysql
     networks:
         - ${NETWORK_NAME}
 
 volumes:
-  data_mysql-vol:
+  data_mariadb-vol:
   http_a2-vol:
   php_55-vol:
   php_70-vol:
   composer_70-vol:
-  es24-vol:
 
 networks:
-  ${NETWORK_NAME}:
+  pon-tier:
     driver: bridge
